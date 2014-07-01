@@ -1,0 +1,157 @@
+#!/usr/bin/env ruby
+
+require 'net/http'
+require 'json'
+require 'optparse'
+require 'yaml'
+
+EXE_NAME = File.basename($PROGRAM_NAME)
+# Rather than dump out a free-form string, on errors dump out something that
+# the status board app can read in and display
+def exit_json(error, detail)
+  sperror = {}
+  sperror["error"] = {}
+  sperror["error"]["message"] = error
+  sperror["error"]["detail"] = detail
+  STDERR.puts error, detail
+  puts sperror.to_json
+  exit 1
+end
+
+options = {}
+option_parser = OptionParser.new do |opts|
+  opts.on("-f FILE", "--file", "Where to write the JSON output") do |file|
+    options[:file] = file
+  end
+  opts.on("-t TOKEN", "--token", "Your CloudFlare API token") do |token|
+    options[:token] = token
+  end
+  opts.on("-e EMAIL", "--email", "Your CloudFlare email address") do |token|
+    options[:token] = token
+  end
+  opts.on("-i INTERVAL", "--interval", "CloudFlare history interval") do |token|
+    options[:token] = token
+  end
+  opts.on("--title", "Title of the status board.", "Defaults to 'Cloudflare - Pageviews'") do |token|
+    options[:token] = token
+  end
+  opts.on("\n")
+  opts.on("If no file is given, #{EXE_NAME} will write to standard out.")
+end
+option_parser.parse!
+
+Site = Struct.new(:title, :url, :color) do
+end
+
+if options.has_key? :file then
+  path = File.expand_path(options[:file])
+  dir = File.dirname(path)
+  begin
+    $stdout.reopen(path, 'w')
+  rescue Errno::ENOENT
+    abort "Can't write into #{dir}."
+  rescue Errno::EACCES
+    abort File.writable?(dir) ? "Can't write #{path}. No permission." : "Can't write to #{dir}. No permission."
+  rescue Errno::EISDIR
+    abort "Please pass in a file name, not a directory name."
+  rescue => e
+    abort e.message
+  end
+end
+#foo = options[:file]
+#foo ||= "default"
+
+# ~~~~~ CONFIG BEGIN ~~~~~
+# The title that will show up on your status board
+title = "Cloudflare - Pageviews"
+# ADD AS MANY SITES AS YOU WANT (AND CAN FIT)
+# Colors: yellow, green, red, purple, blue, mediumGray, pink, aqua, orange, lightGray
+sites = []
+sites << Site.new("Should I Use That In Prod", "shouldiusethatinprod.com", "red")
+sites << Site.new("Bishop.Sexy", "bishop.sexy", "yellow")
+sites << Site.new("It's Not Rocket Science", "itsnotrocketscience.info", "purple")
+
+# Your Cloudflare token - available via their website at https://www.cloudflare.com/my-account
+token = 'XXXXXXXXXXXXXXX'
+# The email you have registered with cloudflare. *NOT* your username!
+email = 'user@example.com'
+# Interval Values - see https://www.cloudflare.com/docs/client-api.html for latest.
+# 20-40 only update once a day - it is no use polling more often than that
+# 20 = Past 30 days
+# 30 = Past 7 days
+# 40 = Past day
+# Anything higher than this requires a paid CloudFlare account. This also enables
+# greater than daily updates
+# 100 = 24 hours ago
+# 110 = 12 hours ago
+# 120 = 6 hours ago
+interval = 40
+
+# YOU SHOULD NOT NEED TO EDIT ANYTHING BELOW HERE
+# IF YOU DO, PLEASE OPEN A BUG REPORT AT http://github.com/teancom/flareboard
+# ~~~~~ CONFIG END ~~~~~
+graph_title = title
+
+graph = {}
+graph["graph"] = {}
+graph["graph"]["title"] = graph_title
+#graph["graph"]["type"] = "bar"
+graph["graph"]["datasequences"] = []
+
+uri = URI('https://www.cloudflare.com/api_json.html')
+request = Net::HTTP::Post.new(uri)
+
+sites.each_with_index do | site, key |
+  request.set_form_data('a' => 'stats',
+                        'tkn' => token,
+                        'email' => email,
+                        'z' => site.url,
+                        'interval' => interval)
+  begin
+    response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) do |http|
+      http.request(request)
+    end
+    case response
+      when Net::HTTPSuccess then
+        begin
+          result = JSON.parse(response.body)
+        rescue UnparserError => e
+          exit_json "Unable to parse the Cloudflare JSON: #{e}"
+        end
+        if result["result"] == "error"
+          case result['err_code']
+            when "E_UNAUTH" then
+              exit_json("Couldn't authenticate: #{result['msg']}", result['err_code'])
+            when "err_ts" then
+              exit_json("Invalid interval: #{result['msg']}",  result['err_code'])
+            when "err_zone_not_found" then
+              exit_json("Probable typo in site name: #{result['msg']}",  result['err_code'])
+            when "E_MAXAPI" then
+              exit_json("CloudFlare wants you to not hit them as much: #{result['msg']}", result['err_code'])
+            when "E_INVLDINPUT" then
+              exit_json("Unknown problem. Did you edit outside the config area of the script? #{result['msg']}",  result['err_code'])
+            default
+              exit_json("Unable to retrieve the Cloudflare JSON: #{result['msg']}", result['err_code'])
+          end
+        end
+      else
+        exit_json "Problems contacting the Cloudflare server: #{response.value}"
+    end
+  rescue Net::HTTPServerException => e
+    exit_json "Problems contacting the Cloudflare server: #{e}"
+  end
+
+
+  graph["graph"]["datasequences"][key] = {}
+  graph["graph"]["datasequences"][key]["title"] = site.title
+  graph["graph"]["datasequences"][key]["color"] = site.color
+  graph["graph"]["datasequences"][key]["datapoints"] = []
+  #graph["graph"]["datasequences"][key]["datapoints"][0]["title"] = "Nudiustertian"
+  #graph["graph"]["datasequences"][key]["datapoints"][1]["title"] = "Yesterday"
+  graph["graph"]["datasequences"][key]["datapoints"][0] = {}
+  graph["graph"]["datasequences"][key]["datapoints"][0]["title"] = "Today"
+  graph["graph"]["datasequences"][key]["datapoints"][0]["value"] = result["response"]["result"]["objs"][0]["requestsServed"]["cloudflare"] - result["response"]["result"]["objs"][0]["trafficBreakdown"]["pageviews"]["crawler"]
+end
+
+puts graph.to_json
+
