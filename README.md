@@ -22,10 +22,14 @@ Also, you have my sympathies for having to use 1.8.7.
 
 ## Configuration
 
+There are three ways of configuring the script. Via the command-line arguments
+documented in the previous section, via a config file, or by editing the script
+directly. In order of priority, it will use command-line options, then config
+file, and then the hard-coded config hash in the script.
+
 You can edit the config hash right in the script, or you can create a config
-file in your home directory named .flareboard.rc. If you create a config,
-that will override the hash created in the script, which is good because it's
-prepopulated with example data. It is *highly* recommended to use a config file.
+file in your home directory named **.flareboard.rc**. It is *highly* recommended to 
+use a config file.
 
 ### :title
 The title that will show up on your status board
