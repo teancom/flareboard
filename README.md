@@ -15,19 +15,11 @@ that.
 **Note**: For compatibility with 1.8.7. you *will* have to install the JSON gem.
 Also, you have my sympathies for having to use 1.8.7.
 
-## Usage
+## Installation
 
-    Usage: flareboard [options]
-        -f, --file FILE                  Where to write the JSON output
-                                         Defaults to STDOUT
-        -t, --token TOKEN                Your CloudFlare API token
-        -e, --email EMAIL                Your CloudFlare email address
-        -i, --interval INTERVAL          CloudFlare history interval
-                                         Defaults to 40
-            --title TITLE                Title of the status board
-                                         Defaults to 'Cloudflare - Pageviews'
-
-    If no file is given, flareboard will write to standard out.
+Copy the file ```flareboard``` onto your computer. Put it either in a bin
+directory in your path or somewhere else. If you are using ruby 1.8.7, then
+you'll have to run ```sudo gem install json``` before it will work.
 
 ## Configuration
 
@@ -81,3 +73,17 @@ Here is an example config file, using the same data as the example hash.
     - :title: "It's Not Rocket Science"
       :url:   'itsnotrocketscience.info'
       :color: 'purple'
+
+## Usage
+
+    Usage: flareboard [options]
+        -f, --file FILE                  Where to write the JSON output
+                                         Defaults to STDOUT
+        -t, --token TOKEN                Your CloudFlare API token
+        -e, --email EMAIL                Your CloudFlare email address
+        -i, --interval INTERVAL          CloudFlare history interval
+                                         Defaults to 40
+            --title TITLE                Title of the status board
+                                         Defaults to 'Cloudflare - Pageviews'
+
+    If no file is given, flareboard will write to standard out.
