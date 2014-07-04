@@ -33,7 +33,8 @@ latest.
     20 = Past 30 days
     30 = Past 7 days
     40 = Past day
-    !!! Anything higher than this requires a paid CloudFlare account. This also enables greater than daily updates !!!
+    !!! Anything higher than this requires a paid CloudFlare account !!!
+    !!! This also enables greater than daily updates !!!
     100 = 24 hours ago
     110 = 12 hours ago
     120 = 6 hours ago
