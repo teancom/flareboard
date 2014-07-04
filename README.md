@@ -26,10 +26,8 @@ Also, you have my sympathies for having to use 1.8.7.
                                          Defaults to 40
             --title TITLE                Title of the status board
                                          Defaults to 'Cloudflare - Pageviews'
-            --graph GRAPH                The type of graph - bar or line
-                                         Defaults to bar
 
-If no file is given, flareboard will write to standard out.
+    If no file is given, flareboard will write to standard out.
 
 ## Configuration
 
@@ -71,7 +69,7 @@ latest.
 Sites have a site specific title, a URL, and a color for the graph.
 Colors: yellow, green, red, purple, blue, mediumGray, pink, aqua, orange, lightGray
 
-Here is an example config file, using the same data as the example hash. 
+Here is an example config file, using the same data as the example hash.
 
     ---
     :token: XXXXXXX
