@@ -23,20 +23,19 @@ Your Cloudflare token - available via their website at
 https://www.cloudflare.com/my-account
 
 ### :email
-The email you have registered with cloudflare. *NOT* your username!
+The email you have registered with cloudflare. **NOT** your username!
 
 ### :interval
 Interval Values - see https://www.cloudflare.com/docs/client-api.html for
 latest.
-20-40 only update once a day - it is no use polling more often than that
-20 = Past 30 days
-30 = Past 7 days
-40 = Past day
-!!! Anything higher than this requires a paid CloudFlare account. This also
-enables greater than daily updates !!!
-100 = 24 hours ago
-110 = 12 hours ago
-120 = 6 hours ago
+    20-40 only update once a day - it is no use polling more often than that
+    20 = Past 30 days
+    30 = Past 7 days
+    40 = Past day
+    !!! Anything higher than this requires a paid CloudFlare account. This also enables greater than daily updates !!!
+    100 = 24 hours ago
+    110 = 12 hours ago
+    120 = 6 hours ago
 
 ### :sites
 Sites have a site specific title, a URL, and a color for the graph.
