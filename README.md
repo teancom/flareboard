@@ -8,7 +8,19 @@ and can be run on any version of ruby from 1.8.7 to 2.1.1.
 **Note**: For compatibility with 1.8.7. you *will* have to install the JSON gem.
 Also, you have my sympathies for having to use 1.8.7.
 
-##Configuration
+## Usage
+
+    Usage: flareboard [options]
+        -f, --file FILE                  Where to write the JSON output
+        -t, --token TOKEN                Your CloudFlare API token
+        -e, --email EMAIL                Your CloudFlare email address
+        -i, --interval INTERVAL          CloudFlare history interval
+            --title TITLE                Title of the status board.
+                                         Defaults to 'Cloudflare - Pageviews'
+
+    If no file is given, flareboard will write to standard out.
+
+## Configuration
 
 You can edit the config hash right in the script, or you can create a config
 file in your home directory named .flareboard.rc. If you create a config,
