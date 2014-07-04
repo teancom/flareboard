@@ -3,7 +3,7 @@
 Flareboard is the way to get your [CloudFlare](http://www.cloudflare.com) stats
 to display in your [StatusBoard](http://www.panic.com/statusboard). It has been
 designed to be very easy to install and use. It requires no third-party gems,
-and can be run on any version of ruby from 1.9.1 to 2.1.1.
+and can be run on any version of ruby from 1.8.7 to 2.1.1.
 
 **Note**: For compatibility with 1.8.7. you *will* have to install the JSON gem.
 Also, you have my sympathies for having to use 1.8.7.
