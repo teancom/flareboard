@@ -5,6 +5,13 @@ to display in your [StatusBoard](http://www.panic.com/statusboard). It has been
 designed to be very easy to install and use. It requires no third-party gems,
 and can be run on any version of ruby from 1.8.7 to 2.1.1.
 
+Add your credentials and sites to flareboard, and it will hit the CloudFlare API
+to grab your stats and convert them into the JSON that Statusboard uses for
+graphing. You can drop the resulting file into a dropbox folder or host it on a
+web server. Unless you are paying for a CloudFlare Pro account, your stats will
+only update every 24 hours, so it's no use running flareboard more often than
+that.
+
 **Note**: For compatibility with 1.8.7. you *will* have to install the JSON gem.
 Also, you have my sympathies for having to use 1.8.7.
 
