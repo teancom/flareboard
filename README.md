@@ -19,24 +19,29 @@ Also, you have my sympathies for having to use 1.8.7.
 
     Usage: flareboard [options]
         -f, --file FILE                  Where to write the JSON output
+                                         Defaults to STDOUT
         -t, --token TOKEN                Your CloudFlare API token
         -e, --email EMAIL                Your CloudFlare email address
         -i, --interval INTERVAL          CloudFlare history interval
-            --title TITLE                Title of the status board.
+                                         Defaults to 40
+            --title TITLE                Title of the status board
                                          Defaults to 'Cloudflare - Pageviews'
+            --graph GRAPH                The type of graph - bar or line
+                                         Defaults to bar
 
-    If no file is given, flareboard will write to standard out.
+If no file is given, flareboard will write to standard out.
 
 ## Configuration
 
 There are three ways of configuring the script. Via the command-line arguments
-documented in the previous section, via a config file, or by editing the script
-directly. In order of priority, it will use command-line options, then config
-file, and then the hard-coded config hash in the script.
+documented in the previous section, via a config file (*~/.flareboard.rc*), or
+by editing the script directly. In order of priority (highest to lowest), it
+will use command-line options, the config file, and then the hard-coded config
+hash in the script.
 
-You can edit the config hash right in the script, or you can create a config
-file in your home directory named **.flareboard.rc**. It is *highly* recommended to 
-use a config file.
+It is *highly* recommended to use a config file, as passing your API token on
+the command-line is a security risk, and modifying the script itself will make
+upgrades manual and laborious.
 
 ### :title
 The title that will show up on your status board

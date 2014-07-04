@@ -42,6 +42,7 @@ options = {
   :token    => 'XXXXXX',
   :email    => 'user@example.com',
   :interval => 40,
+  :graph    => 'bar',
   :sites    => [
     { :title => 'Should I Use That In Prod',
       :url => 'shouldiusethatinprod.com',
@@ -68,7 +69,8 @@ EXE_NAME = File.basename($PROGRAM_NAME)
 option_parser = OptionParser.new do |opts|
   opts.on('-f FILE',
           '--file',
-          'Where to write the JSON output'
+          'Where to write the JSON output',
+          'Defaults to STDOUT'
          ) do |file|
     options[:file] = file
   end
@@ -87,15 +89,22 @@ option_parser = OptionParser.new do |opts|
   opts.on('-i INTERVAL',
           '--interval',
           Integer,
-          'CloudFlare history interval'
+          'CloudFlare history interval',
+          'Defaults to 40'
          ) do |interval|
     options[:interval] = interval
   end
   opts.on('--title TITLE',
-          'Title of the status board.',
+          'Title of the status board',
           "Defaults to 'Cloudflare - Pageviews'"
          ) do |title|
     options[:title] = title
+  end
+  opts.on('--graph GRAPH',
+          'The type of graph - bar or line',
+          'Defaults to bar'
+         ) do |graph|
+    options[:graph] = graph
   end
   opts.on("\n")
   opts.on("If no file is given, #{EXE_NAME} will write to standard out.")
@@ -123,7 +132,7 @@ end
 graph = {
   'graph' => {
     'title'         => options[:title],
-    'type'          => 'bar',
+    'type'          => options[:graph],
     'datasequences' => []
   }
 }
