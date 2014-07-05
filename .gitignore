@@ -1,2 +1,10 @@
+# Ruby artifacts
 Gemfile.lock
 pkg/
+tmp
+test/tmp
+test/version_tmp
+
+# YARD artifacts
+doc/
+.yardoc
