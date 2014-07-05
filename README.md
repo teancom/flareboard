@@ -17,7 +17,7 @@ Also, you have my sympathies for having to use 1.8.7.
 
 ## Installation
 
-Copy the file ```flareboard``` onto your computer. Put it either in a bin
+Copy the file ```bin/flareboard``` onto your computer. Put it either in a bin
 directory in your path or somewhere else. If you are using ruby 1.8.7, then
 you'll have to run ```sudo gem install json``` before it will work.
 
