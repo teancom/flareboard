@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# @author David Bishop
 
 require 'net/http'
 if RUBY_VERSION < '1.9'
@@ -10,7 +11,12 @@ require 'yaml'
 
 # Rather than dump out a free-form string, on errors dump out something that
 # the status board app can read in and display
+#
+# @param error [String] Short description of the problem
+# @param detail [String] Longer description or specific error code
+# @return [nil]
 def exit_json(error, detail)
+  # return the error in json form
   sperror = {
     'error' => {
       'message' => error,
@@ -22,6 +28,10 @@ def exit_json(error, detail)
   exit 1
 end
 
+# Take the integer that CloudFlare uses and return a description in english
+#
+# @param interval [Integer] Integer needed by Cloudflare API
+# @return [String] Description in english
 def name_interval(interval)
   title = {
     20 => 'Last Month',
@@ -59,12 +69,14 @@ options = {
 # IF YOU DO, PLEASE OPEN A BUG REPORT AT http://github.com/teancom/flareboard
 # ~~~~~ CONFIG END ~~~~~
 
+# The config file
 CONFIG_FILE = File.join(ENV['HOME'], '.flareboard.rc')
 if File.exist? CONFIG_FILE
   config_options = YAML.load_file(CONFIG_FILE)
   options.merge!(config_options)
 end
 
+# The name of this program
 EXE_NAME = File.basename($PROGRAM_NAME)
 option_parser = OptionParser.new do |opts|
   opts.on('-f FILE',
@@ -100,12 +112,12 @@ option_parser = OptionParser.new do |opts|
          ) do |title|
     options[:title] = title
   end
-  opts.on('--graph GRAPH',
-          'The type of graph - bar or line',
-          'Defaults to bar'
-         ) do |graph|
-    options[:graph] = graph
-  end
+#  opts.on('--graph GRAPH',
+#          'The type of graph - bar or line',
+#          'Defaults to bar'
+#         ) do |graph|
+#    options[:graph] = graph
+#  end
   opts.on("\n")
   opts.on("If no file is given, #{EXE_NAME} will write to standard out.")
 end
