@@ -42,7 +42,8 @@ def name_interval(interval)
     120 => '6 Hours Ago'
   }
 
-  title.key?(interval) ? title[interval] : 'Invalid interval'
+  # hash.fetch will return the second parameter if the key doesn't exist
+  title.fetch(interval, 'Invalid interval')
 end
 
 # ~~~~~ CONFIG BEGIN ~~~~~
@@ -78,6 +79,7 @@ end
 
 # The name of this program
 EXE_NAME = File.basename($PROGRAM_NAME)
+# @todo Add support for graph type
 option_parser = OptionParser.new do |opts|
   opts.on('-f FILE',
           '--file',
@@ -112,12 +114,12 @@ option_parser = OptionParser.new do |opts|
          ) do |title|
     options[:title] = title
   end
-#  opts.on('--graph GRAPH',
-#          'The type of graph - bar or line',
-#          'Defaults to bar'
-#         ) do |graph|
-#    options[:graph] = graph
-#  end
+# opts.on('--graph GRAPH',
+#         'The type of graph - bar or line',
+#         'Defaults to bar'
+#        ) do |graph|
+#   options[:graph] = graph
+# end
   opts.on("\n")
   opts.on("If no file is given, #{EXE_NAME} will write to standard out.")
 end
