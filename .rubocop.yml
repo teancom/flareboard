@@ -1,0 +1,9 @@
+AllCops:
+  Exclude:
+    - 'pkg/**/*'
+Style/LineLength:
+  Max: 80
+Style/HashSyntax:
+  Enabled: false
+Style/BlockComments:
+  Enabled: false
