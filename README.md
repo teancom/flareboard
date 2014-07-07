@@ -28,7 +28,7 @@ you'll have to run ```sudo gem install json``` before it will work.
 ## Configuration
 
 There are three ways of configuring the script. Via the command-line arguments
-documented in the previous section, via a config file (*~/.flareboard.rc*), or
+documented in the Usage section, via a config file (*~/.flareboard.rc*), or
 by editing the script directly. In order of priority (highest to lowest), it
 will use command-line options, the config file, and then the hard-coded config
 hash in the script.
