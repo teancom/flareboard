@@ -145,9 +145,10 @@ end
 # The graph hash needs to match the JSON object that StatusBoard requires
 graph = {
   'graph' => {
-    'title'         => options[:title],
-    'type'          => options[:graph],
-    'datasequences' => []
+    'title'                => options[:title],
+    'type'                 => options[:graph],
+    'refreshEveryNSeconds' => 1200,
+    'datasequences'        => []
   }
 }
 
