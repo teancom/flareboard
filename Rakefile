@@ -36,7 +36,7 @@ namespace 'package' do
   task :rpm => ['rpm/flareboard.spec', 'package:gem'] do
     Dir.mktmpdir {|tmpdir|
       cp "pkg/flareboard-#{spec.version}.gem", tmpdir
-      sh %Q{rpmbuild -D "_tmppath #{tmpdir}" -D "_builddir #{tmpdir}" -D "_sourcedir #{tmpdir}" -D "_rpmdir ./" -D "_rpmfilename rubygems-flareboard-#{spec.version}.noarch.rpm" -bb rpm/flareboard.spec}
+      sh %Q{rpmbuild -D "_tmppath #{tmpdir}" -D "_builddir #{tmpdir}" -D "_sourcedir #{tmpdir}" -D "_rpmdir ./" -D "_rpmfilename rubygem-flareboard-#{spec.version}.noarch.rpm" -bb rpm/flareboard.spec}
     }
   end
 
