@@ -8,3 +8,6 @@ test/version_tmp
 # YARD artifacts
 doc/
 .yardoc
+
+# Generated from a template
+rpm/flareboard.spec

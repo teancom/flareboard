@@ -1,0 +1,59 @@
+%define rbname flareboard
+%define version <%= version %>
+%define release 1%{?_dist}
+%define gemdir %(gem environment gemdir)
+%define gembuilddir %{buildroot}%{gemdir}
+
+Summary: flareboard gets your cloudflare stats into statusboard
+Name: rubygem-%{rbname}
+
+Version: %{version}
+Release: %{release}
+Group: Development/Ruby
+License: ISC
+URL: http://github.com/teancom/flareboard
+Source0: %{rbname}-%{version}.gem
+# Make sure the spec template is included in the SRPM
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
+Requires: ruby > 1.8.7
+Requires: rubygem-json => 1.4
+Requires: rubygem-json < 2
+BuildRequires: rubygem-rake => 10
+BuildRequires: rubygem-rake < 11
+BuildRequires: rubygem-yard => 0.8
+BuildRequires: rubygem-yard < 1
+BuildArch: noarch
+Provides: ruby(Flareboard) = %{version}
+
+
+%description
+flareboard allows you to display your CloudFlare statistics
+in the Panic Software's StatusBoard app.
+
+
+%prep
+%setup -T -c
+
+%build
+
+%install
+%{__rm} -rf %{buildroot}
+mkdir -p %{gembuilddir}
+gem install --local --install-dir %{gembuilddir} --no-rdoc --no-ri --force %{SOURCE0}
+mkdir -p %{buildroot}/%{_bindir}
+mv %{gembuilddir}/bin/* %{buildroot}/%{_bindir}
+rmdir %{gembuilddir}/bin
+
+%clean
+%{__rm} -rf %{buildroot}
+
+%files
+%defattr(-, root, root)
+%{_bindir}/flareboard
+%{gemdir}/gems/flareboard-0.0.1/
+%{gemdir}/cache/flareboard-0.0.1.gem
+%{gemdir}/specifications/flareboard-0.0.1.gemspec
+
+%changelog
+* Sun Jul 20 2014 David Bishop <david@gnuconsulting.com> 0.0.1-1
+- Initial spec
