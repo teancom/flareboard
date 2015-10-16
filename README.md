@@ -1,9 +1,10 @@
 ##What is Flareboard?
 
 Flareboard is the way to get your [CloudFlare](http://www.cloudflare.com) stats
-to display in your [StatusBoard](http://www.panic.com/statusboard). It has been
-designed to be very easy to install and use. It requires no third-party gems,
-and can be run on any version of ruby from 1.8.7 to 2.1.1.
+to display in [StatusBoard](http://www.panic.com/statusboard) or
+[The Dash](https://thedash.com). It has been designed to be very easy to install
+and use. It requires no third-party gems, and can be run on any version of ruby
+from 1.9.x to 2.2.x
 
 Add your credentials and sites to flareboard, and it will hit the CloudFlare API
 to grab your stats and convert them into the JSON that Statusboard uses for
@@ -12,8 +13,8 @@ web server. Unless you are paying for a CloudFlare Pro account, your stats will
 only update every 24 hours, so it's no use running flareboard more often than
 that.
 
-**Note**: For compatibility with 1.8.7. you *will* have to install the JSON gem.
-Also, you have my sympathies for having to use 1.8.7.
+**Note**: It is no longer compatible with Ruby 1.8, as that version is no longer
+being supported upstream. Please upgrade.
 
 ## Installation
 
@@ -22,8 +23,7 @@ Simply run ```gem install flareboard```
 
 ### Manual
 Copy the file ```bin/flareboard``` onto your computer. Put it either in a bin
-directory in your path or somewhere else. If you are using ruby 1.8.7, then
-you'll have to run ```sudo gem install json``` before it will work.
+directory in your path or somewhere else.
 
 ## Configuration
 

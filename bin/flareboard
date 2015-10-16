@@ -2,9 +2,6 @@
 # @author David Bishop
 
 require 'net/http'
-if RUBY_VERSION < '1.9'
-  require 'net/https'
-end
 require 'json'
 require 'optparse'
 require 'yaml'
@@ -165,9 +162,6 @@ options[:sites].each_with_index do | site, key |
   )
   httpreq = Net::HTTP.new(uri.host, uri.port)
   httpreq.use_ssl = true
-  if RUBY_VERSION < '1.9'
-    httpreq.verify_mode = OpenSSL::SSL::VERIFY_NONE
-  end
 
   response = httpreq.start do |http|
     http.request(request)
