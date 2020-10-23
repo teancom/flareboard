@@ -1,3 +1,8 @@
+## DEPRECATED AS OF 2020
+
+Due to the fact that StatusBoard doesn't run on modern iOS and The Dash has been
+shut down, this repo and gem are being archived.
+
 ##What is Flareboard?
 
 Flareboard is the way to get your [CloudFlare](http://www.cloudflare.com) stats
